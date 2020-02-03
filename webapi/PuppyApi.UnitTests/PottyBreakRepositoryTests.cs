@@ -24,10 +24,7 @@ namespace PuppyApi.UnitTests
                 Pooed = false,
                 Comment = "For Testing"
             };           
-
-
         }
-
 
         [Fact, Order(1), Trait("Category", "Integration")]
         public async Task InitializeAsync_WhenCalled_DoesNotThrow()
