@@ -1,4 +1,6 @@
-﻿using PuppyApi.Models;
+﻿using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
+using PuppyApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,29 +10,68 @@ namespace PuppyApi.Data
 {
     public class PottyBreakRepository : IPottyBreakRepository
     {
+        private readonly CloudTable _tableReference;
+
         public PottyBreakRepository()
         {
-
+            var storageConnectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
+            var cloudStorageAccount = CloudStorageAccount.Parse(storageConnectionString);
+            var tableClient = cloudStorageAccount.CreateCloudTableClient();
+            _tableReference = tableClient.GetTableReference("puppytrackertable");
         }
 
-        public Task DeleteAsync(PottyBreak pottyBreak)
+        public async Task InitializeAsync()
         {
-            throw new NotImplementedException();
+            await _tableReference.CreateIfNotExistsAsync();
         }
 
-        public Task<IEnumerable<PottyBreak>> GetAllAsync()
+        public async Task DeleteAsync(PottyBreak pottyBreak)
         {
-            throw new NotImplementedException();
+            var tableEntity = pottyBreak.AsDynamicTableEntity();
+            var deleteOperation = TableOperation.Delete(tableEntity);
+
+            await _tableReference.ExecuteAsync(deleteOperation);
         }
 
-        public Task<PottyBreak> GetById(Guid verifiedGuid)
+        public async Task<IEnumerable<PottyBreak>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var query        = new TableQuery<DynamicTableEntity>();
+            var token        = new TableContinuationToken();
+            var totalEntries = new List<DynamicTableEntity>();
+            do
+            {
+                var page = await _tableReference.ExecuteQuerySegmentedAsync(query, token);
+                token = page.ContinuationToken;
+                totalEntries.AddRange(page.Results);
+
+            } while (token != null);
+
+            return totalEntries.Select(entity => entity.AsPottyBreak());
         }
 
-        public Task SaveAsync(PottyBreak pottyBreak)
+        public async Task<PottyBreak> GetById(Guid verifiedGuid)
         {
-            throw new NotImplementedException();
+
+            var retrieveOperation = TableOperation.Retrieve<DynamicTableEntity>(PottyBreakHelpers.PottyBreakPartitionKey, verifiedGuid.ToString());
+            var executeResult     = await _tableReference.ExecuteAsync(retrieveOperation);
+            
+            if (executeResult == null)
+                return null;
+
+            if (executeResult.Result is DynamicTableEntity == false)
+                return null;
+
+            var entity = (DynamicTableEntity)executeResult.Result;
+
+            return entity.AsPottyBreak();
+        }
+
+        public async Task SaveAsync(PottyBreak pottyBreak)
+        {
+            var entity = pottyBreak.AsDynamicTableEntity();
+            var insertOperation = TableOperation.Insert(entity);
+
+            await _tableReference.ExecuteAsync(insertOperation);
         }
     }
 }

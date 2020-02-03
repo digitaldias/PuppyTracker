@@ -7,6 +7,8 @@ namespace PuppyApi.Data
 {
     public interface IPottyBreakRepository
     {
+        Task InitializeAsync();
+
         Task<IEnumerable<PottyBreak>> GetAllAsync();
 
         Task<PottyBreak> GetById(Guid verifiedGuid);
