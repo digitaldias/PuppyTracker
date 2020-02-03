@@ -1,9 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
 using PuppyApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PuppyApi.Data
 {
@@ -11,7 +8,7 @@ namespace PuppyApi.Data
     {
         private const string POTTYBREAK_PARTITIONKEY = "potty";
 
-        public static string PottyBreakPartitionKey => PottyBreakPartitionKey;
+        public static string PottyBreakPartitionKey => POTTYBREAK_PARTITIONKEY;
 
         public static PottyBreak AsPottyBreak(this DynamicTableEntity entity)
         {
