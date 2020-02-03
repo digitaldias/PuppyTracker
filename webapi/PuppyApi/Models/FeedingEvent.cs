@@ -4,6 +4,8 @@ namespace PuppyApi.Models
 {
     public class FeedingEvent
     {
+        public Guid Id { get; set; }
+
         public DateTime DateTime { get; set; }
 
         public bool IsBreakfast { get; set; }
