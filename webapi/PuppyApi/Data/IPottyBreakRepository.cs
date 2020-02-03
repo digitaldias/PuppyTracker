@@ -12,6 +12,7 @@ namespace PuppyApi.Data
         Task<PottyBreak> GetById(Guid verifiedGuid);
         
         Task SaveAsync(PottyBreak pottyBreak);
+        
         Task DeleteAsync(PottyBreak pottyBreak);
     }
 }
