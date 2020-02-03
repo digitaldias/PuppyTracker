@@ -4,7 +4,7 @@ namespace PuppyApi.Models
 {
     public class CrateTrainingEvent
     {
-        public Guid guid { get; set; }
+        public Guid Id { get; set; }
 
         public DateTime WentIn { get; set; }
 
