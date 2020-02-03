@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PuppyApi.Data;
+using PuppyApi.Managers;
 using PuppyApi.Models;
 
 namespace PuppyApi.Controllers
@@ -15,16 +16,18 @@ namespace PuppyApi.Controllers
     public class PottyController : ControllerBase
     {
         private readonly IPottyBreakRepository _pottyBreakRepository;
+        private readonly IExceptionHandler _exceptionHandler;
 
-        public PottyController(IPottyBreakRepository pottyBreakRepository)
+        public PottyController(IPottyBreakRepository pottyBreakRepository, IExceptionHandler exceptionHandler)
         {
             _pottyBreakRepository = pottyBreakRepository;
+            _exceptionHandler = exceptionHandler;
         }
 
         [HttpGet]
         public async Task<IEnumerable<PottyBreak>> GetPottyBreaks()
         {
-            return await _pottyBreakRepository.GetAllAsync();
+            return  await _exceptionHandler.GetAsync(() => _pottyBreakRepository.GetAllAsync());
         }
 
         [HttpGet("{id}")]
@@ -38,7 +41,7 @@ namespace PuppyApi.Controllers
             if (!couldParse)
                 return BadRequest();
 
-            var pottyBreak = await _pottyBreakRepository.GetById(verifiedGuid);
+            var pottyBreak = await _exceptionHandler.GetAsync(() => _pottyBreakRepository.GetById(verifiedGuid));
             if (pottyBreak != null)
                 return BadRequest();
 
@@ -54,7 +57,7 @@ namespace PuppyApi.Controllers
             if (id != pottyBreak.Id)
                 return BadRequest();
 
-            await _pottyBreakRepository.SaveAsync(pottyBreak);
+            await _exceptionHandler.RunAsync(() => _pottyBreakRepository.SaveAsync(pottyBreak));
 
             return NoContent();
         }
@@ -69,7 +72,7 @@ namespace PuppyApi.Controllers
             if (pottyBreak == null)
                 return NotFound();
 
-            await _pottyBreakRepository.DeleteAsync(pottyBreak);
+            await _exceptionHandler.RunAsync(() => _pottyBreakRepository.DeleteAsync(pottyBreak));
             return Ok();
         }
     }
