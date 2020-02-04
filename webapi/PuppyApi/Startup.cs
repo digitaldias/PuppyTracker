@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PuppyApi.Data;
 using PuppyApi.Managers;
+using System;
+using System.IO;
 
 namespace PuppyApi
 {
@@ -35,7 +38,7 @@ namespace PuppyApi
             });
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "";
+                configuration.RootPath = "PuppyTracker/dist";
             });
         }
 
@@ -58,6 +61,20 @@ namespace PuppyApi
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}"
                     ); ;
+            });
+
+            app.UseSpa(spa => 
+            {
+                var angularAppPath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\webfrontend\puppytracker");
+                if (!Directory.Exists(angularAppPath))
+                    throw new InvalidProgramException("Unable to locate Angular app");
+
+                spa.Options.SourcePath = angularAppPath;
+
+                if(env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
             });
 
             app.UseRouting();
