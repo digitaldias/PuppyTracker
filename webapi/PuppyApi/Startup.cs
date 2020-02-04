@@ -20,9 +20,23 @@ namespace PuppyApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0).AddMvcOptions(o => o.EnableEndpointRouting = false);
+
             services.AddSingleton(typeof(IExceptionHandler), typeof(ExceptionHandler));
             services.AddSingleton(typeof(IPottyBreakRepository), typeof(PottyBreakRepository));
             services.AddControllers();
+            services.AddCors(options => 
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader());
+                               
+            });
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,7 +47,18 @@ namespace PuppyApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            // app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action=Index}/{id?}"
+                    ); ;
+            });
 
             app.UseRouting();
 
