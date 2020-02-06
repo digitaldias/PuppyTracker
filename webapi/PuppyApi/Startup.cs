@@ -33,7 +33,8 @@ namespace PuppyApi
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyOrigin()
                                .AllowAnyMethod()
-                               .AllowAnyHeader());
+                               .AllowAnyHeader()
+                               );
                                
             });
             services.AddSpaStaticFiles(configuration =>
@@ -49,11 +50,15 @@ namespace PuppyApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            // app.UseStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
             {
@@ -65,11 +70,7 @@ namespace PuppyApi
 
             app.UseSpa(spa => 
             {
-                var angularAppPath = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\webfrontend\puppytracker");
-                if (!Directory.Exists(angularAppPath))
-                    throw new InvalidProgramException("Unable to locate Angular app");
-
-                spa.Options.SourcePath = angularAppPath;
+                spa.Options.SourcePath = "PuppyTracker";
 
                 if(env.IsDevelopment())
                 {
@@ -77,14 +78,6 @@ namespace PuppyApi
                 }
             });
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
