@@ -1,7 +1,7 @@
 export class PottyBreak {
-    Id?: string;
-    DateTime: Date;
-    Peed: boolean;
-    Pooed: boolean;
-    Comment?: string;
+    id?: string;
+    dateTime: Date;
+    peed: boolean;
+    pooed: boolean;
+    comment?: string;
 }
