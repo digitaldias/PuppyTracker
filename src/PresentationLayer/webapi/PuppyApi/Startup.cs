@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PuppyApi.Business.Handlers;
 using PuppyApi.Domain.Contracts;
-using PuppyApi.Managers;
 
 namespace PuppyApi
 {
