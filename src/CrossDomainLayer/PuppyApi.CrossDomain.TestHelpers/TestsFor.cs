@@ -1,6 +1,6 @@
 ﻿using Moq;
 using StructureMap.AutoMocking.Moq;
-using System;
+
 
 namespace PuppyApi.CrossDomain.TestHelpers
 {
