@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using PuppyApi.CrossDomain.TestHelpers;
-using PuppyApi.Data;
+using PuppyApi.Data.AzureStorage;
 using PuppyApi.Domain.Entities;
 using System;
 using System.Threading.Tasks;
@@ -8,9 +8,9 @@ using Xunit;
 using Xunit.Extensions.Ordering;
 
 namespace PuppyApi.UnitTests
-{    
-    
-    public class PottyBreakRepositoryTests : TestsFor<IPottyBreakRepository>
+{
+
+    public class PottyBreakRepositoryTests : TestsFor<PottyBreakRepository>
     {
         private string TestableGuid = "69aae741-2020-4119-ae98-060cdba2e587";
         private PottyBreak TestablePottyBreak;
@@ -24,7 +24,7 @@ namespace PuppyApi.UnitTests
                 Peed = true,
                 Pooed = false,
                 Comment = "For Testing"
-            };           
+            };
         }
 
         [Fact, Order(1), Trait("Category", "Integration")]

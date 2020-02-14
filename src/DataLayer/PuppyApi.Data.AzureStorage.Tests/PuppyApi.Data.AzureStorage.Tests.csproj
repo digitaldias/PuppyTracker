@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+    <PackageReference Include="Xunit.Extensions.Ordering" Version="1.4.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CrossDomainLayer\PuppyApi.CrossDomain.TestHelpers\PuppyApi.CrossDomain.TestHelpers.csproj" />
+    <ProjectReference Include="..\PuppyApi.Data.AzureStorage\PuppyApi.Data.AzureStorage.csproj" />
+  </ItemGroup>
+
+</Project>
