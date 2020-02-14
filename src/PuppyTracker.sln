@@ -31,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi.CrossDomain.TestHe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi.Data.AzureStorage.Tests", "DataLayer\PuppyApi.Data.AzureStorage.Tests\PuppyApi.Data.AzureStorage.Tests.csproj", "{5F73A392-EA0D-48C0-B63C-6BFA28AF8DD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClient", "PresentationLayer\WebClient\WebClient.csproj", "{D4ABEDF7-049C-444F-ADDC-9CAAA4D89087}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClient", "PresentationLayer\WebClient\WebClient.csproj", "{D4ABEDF7-049C-444F-ADDC-9CAAA4D89087}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyApi.Domain.Entities", "DomainLayer\PuppyApi.Domain.Entities\PuppyApi.Domain.Entities.csproj", "{5D7E8CFB-B5A8-418A-AC10-8FA6B941EF60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{D4ABEDF7-049C-444F-ADDC-9CAAA4D89087}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4ABEDF7-049C-444F-ADDC-9CAAA4D89087}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4ABEDF7-049C-444F-ADDC-9CAAA4D89087}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D7E8CFB-B5A8-418A-AC10-8FA6B941EF60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D7E8CFB-B5A8-418A-AC10-8FA6B941EF60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D7E8CFB-B5A8-418A-AC10-8FA6B941EF60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D7E8CFB-B5A8-418A-AC10-8FA6B941EF60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +92,7 @@ Global
 		{43D980F2-4FE1-4DD1-96F1-EC3810446F66} = {4C0031AD-DF64-44C7-BB86-DC7A36355912}
 		{5F73A392-EA0D-48C0-B63C-6BFA28AF8DD8} = {59594ECA-048E-4204-8108-042E8438D4A3}
 		{D4ABEDF7-049C-444F-ADDC-9CAAA4D89087} = {6B4C70CD-B699-4B0D-BD13-2D4729149707}
+		{5D7E8CFB-B5A8-418A-AC10-8FA6B941EF60} = {329D969E-65A6-482D-85A5-759154A60664}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F87A154E-D6F6-463C-AC72-60DC1413CC19}

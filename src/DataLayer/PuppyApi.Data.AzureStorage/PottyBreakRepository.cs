@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
+using PuppyApi.Domain.Contracts;
 using PuppyApi.Domain.Entities;
 using System;
 using System.Collections.Generic;

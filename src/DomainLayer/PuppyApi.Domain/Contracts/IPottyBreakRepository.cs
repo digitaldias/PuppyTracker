@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PuppyApi.Data
+namespace PuppyApi.Domain.Contracts
 {
     public interface IPottyBreakRepository
     {
