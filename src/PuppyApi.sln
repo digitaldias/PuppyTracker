@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi", "PresentationLayer\WebApi\PuppyApi\PuppyApi.csproj", "{4793DA18-4DD4-4BBE-80EA-66166395BCCB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi.UnitTests", "PresentationLayer\WebApi\PuppyApi.UnitTests\PuppyApi.UnitTests.csproj", "{AE9F53EB-6091-407E-926A-E374F10709E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 Presentation Layer", "00 Presentation Layer", "{CCB7F6BE-7B73-40A6-AFA4-CB74DAF6A567}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{6B4C70CD-B699-4B0D-BD13-2D4729149707}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{A375E6F1-B660-4C30-9E09-ABDD274118F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 Business Layer", "10 Business Layer", "{5EBBC7CA-26F5-482B-9B38-C3033B6833D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 Domain Layer", "20 Domain Layer", "{329D969E-65A6-482D-85A5-759154A60664}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30 Data Layer", "30 Data Layer", "{59594ECA-048E-4204-8108-042E8438D4A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyTracker.WebApp", "PresentationLayer\WebApp\PuppyTracker.WebApp\PuppyTracker.WebApp.csproj", "{44E3D1CB-530A-4772-BA0D-75D41005B5BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyApi.Business", "BusinessLayer\PuppyApi.Business\PuppyApi.Business.csproj", "{B1DD7EAE-99D5-432F-A92A-AB81AE282BF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyApi.Domain", "DomainLayer\PuppyApi.Domain\PuppyApi.Domain.csproj", "{A2B310B6-E5AA-4605-A6EA-C90E16072D6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyApi.Data.AzureStorage", "DataLayer\PuppyApi.Data.AzureStorage\PuppyApi.Data.AzureStorage.csproj", "{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4793DA18-4DD4-4BBE-80EA-66166395BCCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4793DA18-4DD4-4BBE-80EA-66166395BCCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4793DA18-4DD4-4BBE-80EA-66166395BCCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4793DA18-4DD4-4BBE-80EA-66166395BCCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE9F53EB-6091-407E-926A-E374F10709E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE9F53EB-6091-407E-926A-E374F10709E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE9F53EB-6091-407E-926A-E374F10709E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE9F53EB-6091-407E-926A-E374F10709E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E3D1CB-530A-4772-BA0D-75D41005B5BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E3D1CB-530A-4772-BA0D-75D41005B5BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E3D1CB-530A-4772-BA0D-75D41005B5BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E3D1CB-530A-4772-BA0D-75D41005B5BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1DD7EAE-99D5-432F-A92A-AB81AE282BF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1DD7EAE-99D5-432F-A92A-AB81AE282BF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1DD7EAE-99D5-432F-A92A-AB81AE282BF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1DD7EAE-99D5-432F-A92A-AB81AE282BF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2B310B6-E5AA-4605-A6EA-C90E16072D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2B310B6-E5AA-4605-A6EA-C90E16072D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2B310B6-E5AA-4605-A6EA-C90E16072D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2B310B6-E5AA-4605-A6EA-C90E16072D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4793DA18-4DD4-4BBE-80EA-66166395BCCB} = {A375E6F1-B660-4C30-9E09-ABDD274118F6}
+		{AE9F53EB-6091-407E-926A-E374F10709E8} = {A375E6F1-B660-4C30-9E09-ABDD274118F6}
+		{6B4C70CD-B699-4B0D-BD13-2D4729149707} = {CCB7F6BE-7B73-40A6-AFA4-CB74DAF6A567}
+		{A375E6F1-B660-4C30-9E09-ABDD274118F6} = {CCB7F6BE-7B73-40A6-AFA4-CB74DAF6A567}
+		{44E3D1CB-530A-4772-BA0D-75D41005B5BB} = {6B4C70CD-B699-4B0D-BD13-2D4729149707}
+		{B1DD7EAE-99D5-432F-A92A-AB81AE282BF5} = {5EBBC7CA-26F5-482B-9B38-C3033B6833D2}
+		{A2B310B6-E5AA-4605-A6EA-C90E16072D6A} = {329D969E-65A6-482D-85A5-759154A60664}
+		{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79} = {59594ECA-048E-4204-8108-042E8438D4A3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F87A154E-D6F6-463C-AC72-60DC1413CC19}
+	EndGlobalSection
+EndGlobal
