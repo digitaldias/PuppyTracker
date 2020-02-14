@@ -1,10 +1,13 @@
-﻿@page "/fetchdata"
+﻿@page "/pottyBreaks"
+@using Newtonsoft.Json
 @using PuppyApi.Domain.Entities
 @using System.Net.Http
 
 <h1>PottyBreaks</h1>
 
 <p>When is your dog doing his stuff?</p>
+<SinglePottyBreak SaveNewPottyBreak="AddNewPottyPottyBreak" />
+<br />
 
 @if (_pottyBreaks == null)
 {
@@ -16,7 +19,7 @@ else
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Time</th>
+                <th>When</th>
                 <th>Peed</th>
                 <th>Pooed</th>
                 <th>Comment</th>
@@ -26,8 +29,8 @@ else
             @foreach (var pottyBreak in _pottyBreaks)
             {
                 <tr>
-                    <td>@pottyBreak.Id.ToString()</td>
-                    <td>@pottyBreak.DateTime</td>
+                    <td>@(pottyBreak.Id.ToString().Substring(0, 5))...</td>
+                    <td>@pottyBreak.DateTime.ToString("dddd, dd MMM HH:mm")</td>
                     <td>@pottyBreak.Peed</td>
                     <td>@pottyBreak.Pooed</td>
                     <td>@pottyBreak.Comment</td>
@@ -37,6 +40,7 @@ else
     </table>
 }
 
+
 @code {
     private PottyBreak[] _pottyBreaks;
 
@@ -44,6 +48,17 @@ else
     {
         var client = new HttpClient();
         var url = "http://localhost:58102/api/potty";
-        _pottyBreaks = await client.GetJsonAsync<PottyBreak[]>(url);
+        var breaks = await client.GetJsonAsync<PottyBreak[]>(url);
+        if (breaks != null && breaks.Any())
+            _pottyBreaks = breaks.OrderByDescending(b => b.DateTime).ToArray();
+    }
+
+    private async void AddNewPottyPottyBreak(PottyBreak newPottyBreak)
+    {
+        var client = new HttpClient();
+        var url = $"http://localhost:58102/api/potty/{newPottyBreak.Id.ToString()}";
+        var json = JsonConvert.SerializeObject(newPottyBreak);
+
+        await client.PutJsonAsync(url,  newPottyBreak);
     }
 }

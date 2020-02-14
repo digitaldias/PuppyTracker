@@ -1,0 +1,70 @@
+﻿@using PuppyApi.Domain.Entities
+
+<hr />
+@if (_pottyBreak == null)
+{
+    <p>Click <i>new</i> to create a new Potty Break..</p>
+    <div>
+        <button class="btn btn-info" @onclick="CreateNewPottyBreak">New</button>
+    </div>
+}
+else
+{
+    <div class="container">
+
+        <h3>New potty: @_pottyBreak.DateTime.ToString("dddd, dd MMM HH:mm")</h3>
+        <small class="small disabled">ID: @_pottyBreak.Id</small>
+        <br />
+        <form>
+            <div class="funkyradio">
+                <div class="funkyradio-success">
+                    <input type="checkbox" class="funkyradio-default" @bind="_pottyBreak.Peed" id="peedCheck" />
+                    <label for="peedCheck">Peed</label>
+                </div>
+                    
+                <div class="funkyradio-success">
+                    <input type="checkbox" class="funkyradio-default" @bind="_pottyBreak.Pooed" id="pooedCheck" />
+                    <label for="pooedCheck">Pooed</label>            
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label for="commentBox">Comment:</label>
+                <input type="text" class="form-control" @bind="_pottyBreak.Comment" />
+            </div>
+    
+            <div>
+                <button class="btn btn-primary" @onclick="AddToParent">Add</button>
+                <button class="btn btn-warning" @onclick="Cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+}
+
+
+
+@code {
+    private PottyBreak _pottyBreak { get; set; }
+
+    [Parameter] public Action<PottyBreak> SaveNewPottyBreak { get; set; }
+
+    private void CreateNewPottyBreak()
+    {
+        _pottyBreak = new PottyBreak
+        {
+            Id = Guid.NewGuid(),
+            DateTime = DateTime.Now,
+            Comment = "No comment"
+        };
+    }
+
+    private void Cancel()
+    {
+        _pottyBreak = null;
+    }
+
+    private void AddToParent()
+    {
+        SaveNewPottyBreak(_pottyBreak);
+    }
+}

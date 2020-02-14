@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi.UnitTests", "Prese
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 Presentation Layer", "00 Presentation Layer", "{CCB7F6BE-7B73-40A6-AFA4-CB74DAF6A567}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{6B4C70CD-B699-4B0D-BD13-2D4729149707}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebClient", "WebClient", "{6B4C70CD-B699-4B0D-BD13-2D4729149707}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{A375E6F1-B660-4C30-9E09-ABDD274118F6}"
 EndProject
@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi.Data.AzureStorage.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClient", "PresentationLayer\WebClient\WebClient.csproj", "{D4ABEDF7-049C-444F-ADDC-9CAAA4D89087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyApi.Domain.Entities", "DomainLayer\PuppyApi.Domain.Entities\PuppyApi.Domain.Entities.csproj", "{5D7E8CFB-B5A8-418A-AC10-8FA6B941EF60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi.Domain.Entities", "DomainLayer\PuppyApi.Domain.Entities\PuppyApi.Domain.Entities.csproj", "{5D7E8CFB-B5A8-418A-AC10-8FA6B941EF60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
