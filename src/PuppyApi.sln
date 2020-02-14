@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi.UnitTests", "Prese
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 Presentation Layer", "00 Presentation Layer", "{CCB7F6BE-7B73-40A6-AFA4-CB74DAF6A567}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{6B4C70CD-B699-4B0D-BD13-2D4729149707}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{6B4C70CD-B699-4B0D-BD13-2D4729149707}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{A375E6F1-B660-4C30-9E09-ABDD274118F6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{A375E6F1-B660-4C30-9E09-ABDD274118F6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 Business Layer", "10 Business Layer", "{5EBBC7CA-26F5-482B-9B38-C3033B6833D2}"
 EndProject
@@ -19,13 +19,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 Domain Layer", "20 Domai
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30 Data Layer", "30 Data Layer", "{59594ECA-048E-4204-8108-042E8438D4A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyTracker.WebApp", "PresentationLayer\WebApp\PuppyTracker.WebApp\PuppyTracker.WebApp.csproj", "{44E3D1CB-530A-4772-BA0D-75D41005B5BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyTracker.WebApp", "PresentationLayer\WebApp\PuppyTracker.WebApp\PuppyTracker.WebApp.csproj", "{44E3D1CB-530A-4772-BA0D-75D41005B5BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyApi.Business", "BusinessLayer\PuppyApi.Business\PuppyApi.Business.csproj", "{B1DD7EAE-99D5-432F-A92A-AB81AE282BF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi.Business", "BusinessLayer\PuppyApi.Business\PuppyApi.Business.csproj", "{B1DD7EAE-99D5-432F-A92A-AB81AE282BF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyApi.Domain", "DomainLayer\PuppyApi.Domain\PuppyApi.Domain.csproj", "{A2B310B6-E5AA-4605-A6EA-C90E16072D6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi.Domain", "DomainLayer\PuppyApi.Domain\PuppyApi.Domain.csproj", "{A2B310B6-E5AA-4605-A6EA-C90E16072D6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyApi.Data.AzureStorage", "DataLayer\PuppyApi.Data.AzureStorage\PuppyApi.Data.AzureStorage.csproj", "{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PuppyApi.Data.AzureStorage", "DataLayer\PuppyApi.Data.AzureStorage\PuppyApi.Data.AzureStorage.csproj", "{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 Cross-domain Layer", "40 Cross-domain Layer", "{4C0031AD-DF64-44C7-BB86-DC7A36355912}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppyApi.CrossDomain.TestHelpers", "CrossDomainLayer\PuppyApi.CrossDomain.TestHelpers\PuppyApi.CrossDomain.TestHelpers.csproj", "{43D980F2-4FE1-4DD1-96F1-EC3810446F66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,10 @@ Global
 		{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43D980F2-4FE1-4DD1-96F1-EC3810446F66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43D980F2-4FE1-4DD1-96F1-EC3810446F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43D980F2-4FE1-4DD1-96F1-EC3810446F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43D980F2-4FE1-4DD1-96F1-EC3810446F66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +78,7 @@ Global
 		{B1DD7EAE-99D5-432F-A92A-AB81AE282BF5} = {5EBBC7CA-26F5-482B-9B38-C3033B6833D2}
 		{A2B310B6-E5AA-4605-A6EA-C90E16072D6A} = {329D969E-65A6-482D-85A5-759154A60664}
 		{BC8008BF-3568-4AAC-941B-AFC4FBA4EA79} = {59594ECA-048E-4204-8108-042E8438D4A3}
+		{43D980F2-4FE1-4DD1-96F1-EC3810446F66} = {4C0031AD-DF64-44C7-BB86-DC7A36355912}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F87A154E-D6F6-463C-AC72-60DC1413CC19}

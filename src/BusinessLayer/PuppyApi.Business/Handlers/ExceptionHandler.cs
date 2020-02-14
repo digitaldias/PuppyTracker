@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PuppyApi.Domain.Contracts;
+using System;
 using System.Threading.Tasks;
 
 namespace PuppyApi.Managers
@@ -11,7 +12,7 @@ namespace PuppyApi.Managers
             {
                 return unsafeFask.Invoke();
             }
-            catch(Exception ex)
+            catch
             {
                 //TODO: Logging? Console output?
             }
@@ -24,7 +25,7 @@ namespace PuppyApi.Managers
             {
                 return unsafeFunction.Invoke();
             }
-            catch(Exception ex)
+            catch
             {
                 //TODO: Logging? Console output?
             }

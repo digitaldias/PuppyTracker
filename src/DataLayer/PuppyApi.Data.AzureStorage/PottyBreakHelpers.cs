@@ -1,8 +1,8 @@
-﻿using Microsoft.WindowsAzure.Storage.Table;
-using PuppyApi.Models;
+﻿using Microsoft.Azure.Cosmos.Table;
+using PuppyApi.Domain.Entities;
 using System;
 
-namespace PuppyApi.Data
+namespace PuppyApi.Data.AzureStorage
 {
     public static class PottyBreakHelpers
     {

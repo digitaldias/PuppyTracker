@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PuppyApi.Models
+namespace PuppyApi.Domain.Entities
 {
     public class FeedingEvent
     {

@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PuppyTracker\**" />
+    <Content Remove="PuppyTracker\**" />
+    <EmbeddedResource Remove="PuppyTracker\**" />
+    <None Remove="PuppyTracker\**" />
+    <TypeScriptCompile Remove="PuppyTracker\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.1" />
@@ -14,6 +22,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BusinessLayer\PuppyApi.Business\PuppyApi.Business.csproj" />
+    <ProjectReference Include="..\..\..\DataLayer\PuppyApi.Data.AzureStorage\PuppyApi.Data.AzureStorage.csproj" />
+    <ProjectReference Include="..\..\..\DomainLayer\PuppyApi.Domain\PuppyApi.Domain.csproj" />
   </ItemGroup>
 
 

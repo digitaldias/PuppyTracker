@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PuppyApi.Data;
+using PuppyApi.Domain.Contracts;
 using PuppyApi.Managers;
-using System;
-using System.IO;
 
 namespace PuppyApi
 {
@@ -26,7 +24,7 @@ namespace PuppyApi
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0).AddMvcOptions(o => o.EnableEndpointRouting = false);
 
             services.AddSingleton(typeof(IExceptionHandler), typeof(ExceptionHandler));
-            services.AddSingleton(typeof(IPottyBreakRepository), typeof(PottyBreakRepository));
+            // services.AddSingleton(typeof(IPottyBreakRepository), typeof(PottyBreakRepository));
             services.AddControllers();
             services.AddCors(options => 
             {

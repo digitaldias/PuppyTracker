@@ -1,4 +1,4 @@
-﻿using PuppyApi.Models;
+﻿using PuppyApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

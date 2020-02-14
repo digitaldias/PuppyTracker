@@ -1,13 +1,12 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-using PuppyApi.Models;
+﻿using Microsoft.Azure.Cosmos.Table;
+using PuppyApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PuppyApi.Data
+namespace PuppyApi.Data.AzureStorage
 {
     public class PottyBreakRepository : IPottyBreakRepository
     {
@@ -18,9 +17,9 @@ namespace PuppyApi.Data
             var storageConnectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
 
             //TODO: Hack! fix later
-            if(string.IsNullOrEmpty(storageConnectionString))
+            if (string.IsNullOrEmpty(storageConnectionString))
                 storageConnectionString = GetStorageConnectionStringFromFile();
-            
+
             var cloudStorageAccount = CloudStorageAccount.Parse(storageConnectionString);
             var tableClient = cloudStorageAccount.CreateCloudTableClient();
             _tableReference = tableClient.GetTableReference("puppytrackertable");
@@ -41,8 +40,8 @@ namespace PuppyApi.Data
 
         public async Task<IEnumerable<PottyBreak>> GetAllAsync()
         {
-            var query        = new TableQuery<DynamicTableEntity>();
-            var token        = new TableContinuationToken();
+            var query = new TableQuery<DynamicTableEntity>();
+            var token = new TableContinuationToken();
             var totalEntries = new List<DynamicTableEntity>();
             do
             {
@@ -59,8 +58,8 @@ namespace PuppyApi.Data
         {
 
             var retrieveOperation = TableOperation.Retrieve<DynamicTableEntity>(PottyBreakHelpers.PottyBreakPartitionKey, verifiedGuid.ToString());
-            var executeResult     = await _tableReference.ExecuteAsync(retrieveOperation);
-            
+            var executeResult = await _tableReference.ExecuteAsync(retrieveOperation);
+
             if (executeResult == null)
                 return null;
 
@@ -81,14 +80,14 @@ namespace PuppyApi.Data
         }
 
         private static string GetStorageConnectionStringFromFile()
-        {            
+        {
             var myDocumentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var fileName = Path.Combine(myDocumentsFolder, "puppyTrackerSettings.txt");
-         
+
             if (!File.Exists(fileName))
                 throw new InvalidProgramException("Unable to locate storage connection string");
-            
-            return File.ReadAllText(fileName);            
+
+            return File.ReadAllText(fileName);
         }
 
     }

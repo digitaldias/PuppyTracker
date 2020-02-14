@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DomainLayer\PuppyApi.Domain\PuppyApi.Domain.csproj" />
+    <PackageReference Include="structuremap.automocking.moq" Version="4.0.0.315" />
   </ItemGroup>
 
 </Project>
