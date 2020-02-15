@@ -17,8 +17,7 @@ else
 {
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
+            <tr>                
                 <th>When</th>
                 <th>Peed</th>
                 <th>Pooed</th>
@@ -28,8 +27,7 @@ else
         <tbody>
             @foreach (var pottyBreak in _pottyBreaks)
             {
-                <tr>
-                    <td>@(pottyBreak.Id.ToString().Substring(0, 5))...</td>
+                <tr>                    
                     <td>@pottyBreak.DateTime.ToString("dddd, dd MMM HH:mm")</td>
                     <td>@pottyBreak.Peed</td>
                     <td>@pottyBreak.Pooed</td>
