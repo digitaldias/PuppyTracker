@@ -36,7 +36,7 @@ namespace PuppyApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var pottyBreak = _pottyBreaksManager.GetByIdAsync(id);
+            var pottyBreak = await _pottyBreaksManager.GetByIdAsync(id);
             if (pottyBreak is null)
                 return NotFound();
 
