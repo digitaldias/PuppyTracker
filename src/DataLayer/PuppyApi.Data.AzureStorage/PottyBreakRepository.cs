@@ -13,6 +13,9 @@ namespace PuppyApi.Data.AzureStorage
     {
         private readonly CloudTable _tableReference;
 
+        private DateTime         _lastGetAllTime;
+        private List<PottyBreak> _cachedPottyBreaks;
+
         public PottyBreakRepository()
         {
             var storageConnectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
@@ -41,9 +44,15 @@ namespace PuppyApi.Data.AzureStorage
 
         public async Task<IEnumerable<PottyBreak>> GetAllAsync()
         {
+            var elapsedTime = DateTime.Now - _lastGetAllTime;
+            if (elapsedTime < TimeSpan.FromMinutes(3))
+                return _cachedPottyBreaks;
+
+
             var query = new TableQuery<DynamicTableEntity>();
             var token = new TableContinuationToken();
             var totalEntries = new List<DynamicTableEntity>();
+
             do
             {
                 var page = await _tableReference.ExecuteQuerySegmentedAsync(query, token);
@@ -52,7 +61,10 @@ namespace PuppyApi.Data.AzureStorage
 
             } while (token != null);
 
-            return totalEntries.Select(entity => entity.AsPottyBreak());
+            _lastGetAllTime    = DateTime.Now;
+            _cachedPottyBreaks =  totalEntries.Select(entity => entity.AsPottyBreak()).ToList();
+
+            return _cachedPottyBreaks;
         }
 
         public async Task<PottyBreak> GetById(Guid verifiedGuid)
@@ -78,6 +90,8 @@ namespace PuppyApi.Data.AzureStorage
             var insertOperation = TableOperation.InsertOrReplace(entity);
 
             await _tableReference.ExecuteAsync(insertOperation);
+            _cachedPottyBreaks.Add(pottyBreak);
+            _lastGetAllTime = DateTime.Now;
         }
 
         private static string GetStorageConnectionStringFromFile()
