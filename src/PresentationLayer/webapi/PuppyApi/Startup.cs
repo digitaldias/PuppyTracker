@@ -5,9 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PuppyApi.Business.Handlers;
-using PuppyApi.Data;
+using PuppyApi.Business.Managers;
 using PuppyApi.Data.AzureStorage;
-using PuppyApi.Domain.Contracts;
+using PuppyApi.Domain.Contracts.Handlers;
+using PuppyApi.Domain.Contracts.Managers;
+using PuppyApi.Domain.Contracts.Repositories;
 
 namespace PuppyApi
 {
@@ -25,8 +27,13 @@ namespace PuppyApi
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0).AddMvcOptions(o => o.EnableEndpointRouting = false);
 
+            // Singletons
             services.AddSingleton(typeof(IExceptionHandler), typeof(ExceptionHandler));
             services.AddSingleton(typeof(IPottyBreakRepository), typeof(PottyBreakRepository));
+            
+            // Scoped instances
+            services.AddScoped(typeof(IPottyBreaksManager), typeof(PottyBreaksManager));
+
             services.AddControllers();
             services.AddCors(options => 
             {

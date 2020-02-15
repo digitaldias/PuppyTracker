@@ -1,20 +1,19 @@
 ﻿using PuppyApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace PuppyApi.Domain.Contracts
+namespace PuppyApi.Domain.Contracts.Managers
 {
-    public interface IPottyBreakRepository
+    public interface IPottyBreaksManager
     {
-        Task InitializeAsync();
-
         Task<IEnumerable<PottyBreak>> GetAllAsync();
 
-        Task<PottyBreak> GetById(Guid verifiedGuid);
-        
+        Task<PottyBreak> GetByIdAsync(string id);
+
         Task SaveAsync(PottyBreak pottyBreak);
-        
+
         Task DeleteAsync(PottyBreak pottyBreak);
     }
 }

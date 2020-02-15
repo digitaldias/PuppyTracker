@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace PuppyApi.Domain.Contracts
+namespace PuppyApi.Domain.Contracts.Handlers
 {
     public interface IExceptionHandler
     {

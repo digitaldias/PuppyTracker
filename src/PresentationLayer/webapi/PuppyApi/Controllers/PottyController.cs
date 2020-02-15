@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PuppyApi.Data;
-using PuppyApi.Domain.Contracts;
+using PuppyApi.Domain.Contracts.Handlers;
+using PuppyApi.Domain.Contracts.Managers;
 using PuppyApi.Domain.Entities;
 
 namespace PuppyApi.Controllers
@@ -13,19 +14,20 @@ namespace PuppyApi.Controllers
     [ApiController]
     public class PottyController : ControllerBase
     {
-        private readonly IPottyBreakRepository _pottyBreakRepository;
-        private readonly IExceptionHandler _exceptionHandler;
+        private readonly IPottyBreaksManager _pottyBreaksManager;
 
-        public PottyController(IPottyBreakRepository pottyBreakRepository, IExceptionHandler exceptionHandler)
+        public PottyController(IPottyBreaksManager pottyBreaksManager)
         {
-            _pottyBreakRepository = pottyBreakRepository;
-            _exceptionHandler = exceptionHandler;
+            if (pottyBreaksManager is null)
+                throw new ArgumentNullException(nameof(pottyBreaksManager));
+
+            _pottyBreaksManager = pottyBreaksManager;
         }
 
         [HttpGet]
         public async Task<IEnumerable<PottyBreak>> GetPottyBreaks()
         {
-            return  await _exceptionHandler.GetAsync(() => _pottyBreakRepository.GetAllAsync());
+            return await _pottyBreaksManager.GetAllAsync();
         }
 
         [HttpGet("{id}")]
@@ -34,14 +36,9 @@ namespace PuppyApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Guid verifiedGuid;
-            var couldParse = Guid.TryParseExact(id, "D", out verifiedGuid);
-            if (!couldParse)
-                return BadRequest();
-
-            var pottyBreak = await _exceptionHandler.GetAsync(() => _pottyBreakRepository.GetById(verifiedGuid));
-            if (pottyBreak != null)
-                return BadRequest();
+            var pottyBreak = _pottyBreaksManager.GetByIdAsync(id);
+            if (pottyBreak is null)
+                return NotFound();
 
             return Ok(pottyBreak);
         }
@@ -55,23 +52,24 @@ namespace PuppyApi.Controllers
             if (id != pottyBreak.Id)
                 return BadRequest();
 
-            await _exceptionHandler.RunAsync(() => _pottyBreakRepository.SaveAsync(pottyBreak));
+            await _pottyBreaksManager.SaveAsync(pottyBreak);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] string id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var pottyBreak = await _pottyBreakRepository.GetById(id);
-            if (pottyBreak == null)
+            var pottyBreak = await _pottyBreaksManager.GetByIdAsync(id);
+            if (pottyBreak is null)
                 return NotFound();
 
-            await _exceptionHandler.RunAsync(() => _pottyBreakRepository.DeleteAsync(pottyBreak));
-            return Ok();
+            await _pottyBreaksManager.DeleteAsync(pottyBreak);
+
+            return NoContent();
         }
     }
 }
