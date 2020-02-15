@@ -1,7 +1,6 @@
 ﻿@page "/pottyBreaks"
 @using PuppyApi.Domain.Entities
-@using Newtonsoft.Json
-@using System.Net.Http
+@using PuppyTracker.WebClient.Data
 
 <h1>PottyBreaks</h1>
 
@@ -42,21 +41,16 @@ else
 @code {
     private PottyBreak[] _pottyBreaks;
 
+    private PottyBreakApiClient apiClient { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        var client = new HttpClient();
-        var url = "http://localhost:58102/api/potty";
-        var breaks = await client.GetJsonAsync<PottyBreak[]>(url);
-        if (breaks != null && breaks.Any())
-            _pottyBreaks = breaks.OrderByDescending(b => b.DateTime).ToArray();
+        apiClient = new PottyBreakApiClient();
+        _pottyBreaks = await apiClient.GetPottyBreaksAsync();
     }
 
     private async void AddNewPottyPottyBreak(PottyBreak newPottyBreak)
     {
-        var client = new HttpClient();
-        var url = $"http://localhost:58102/api/potty/{newPottyBreak.Id.ToString()}";
-        var json = JsonConvert.SerializeObject(newPottyBreak);
-
-        await client.PutJsonAsync(url,  newPottyBreak);
+        await apiClient.SaveOrUpdatePottyBreak(newPottyBreak);
     }
 }

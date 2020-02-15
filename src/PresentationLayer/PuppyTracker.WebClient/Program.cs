@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Blazor.Hosting;
 using System.Threading.Tasks;
-using System.Text;
-using Microsoft.AspNetCore.Blazor.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace PuppyTracker.WebClient
 {
