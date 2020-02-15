@@ -35,5 +35,10 @@ namespace PuppyApi.CrossDomain.TestHelpers
         {
             return Mock.Get(AutoMock.Get<TContract>());
         }
+
+        public void Inject<TContract>(TContract instance) where TContract : class
+        {
+            AutoMock.Inject<TContract>(instance);
+        }
     }
 }
