@@ -14,6 +14,18 @@ The solution has two main components:
 
 The WebApi builds on a standard *domain-driven design* principle. 
 
+## Installation / Requirements
+In order to successfully run this code, you'll need to set up an Azure Storage Account. The solution uses Azure Table Storage as it's main repository, 
+and so you either need to set an environment variable named `StorageConnectionString` for running the code, or add a text file named `puppyTrackerSettings.txt` with the connection string
+set. 
+
+| Operating System | Location for 'puppyTrackerSettings.txt' | 
+| ---------------- | --------------------------------------- |
+| Windows          | My Documents folder                     |
+| Linux            | '\\'                                     |
+
+
+
 
 
 
