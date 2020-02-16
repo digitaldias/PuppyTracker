@@ -43,18 +43,15 @@ namespace PuppyApi.Controllers
             return Ok(pottyBreak);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPottyBreakAsync([FromRoute] Guid id, [FromBody] PottyBreak pottyBreak)
+        [HttpPost]
+        public async Task<IActionResult> PutPottyBreakAsync([FromBody] PottyBreak pottyBreak)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (id != pottyBreak.Id)
-                return BadRequest();
+            //if (!ModelState.IsValid)
+            //    return BadRequest(ModelState);
 
             await _pottyBreaksManager.SaveAsync(pottyBreak);
 
-            return NoContent();
+            return CreatedAtAction(nameof(GetAsync), pottyBreak);
         }
 
         [HttpDelete("{id}")]

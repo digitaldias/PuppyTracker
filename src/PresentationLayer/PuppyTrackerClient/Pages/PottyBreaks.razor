@@ -1,13 +1,12 @@
 ﻿@page "/pottyBreaks"
 @using PuppyApi.Domain.Entities
-@using PuppyTracker.WebClient.Data
+@using PuppyTrackerClient.Data
 
 <h1>PottyBreaks</h1>
 
 <p>When is your dog doing his stuff?</p>
 <SinglePottyBreak SaveNewPottyBreak="AddNewPottyPottyBreak" />
 <br />
-
 @if (_pottyBreaks == null)
 {
     <p><em>Loading...</em></p>
@@ -37,8 +36,8 @@ else
     </table>
 }
 
-
-@code {
+@code 
+{    
     private PottyBreak[] _pottyBreaks;
 
     private PottyBreakApiClient apiClient { get; set; }
@@ -51,6 +50,6 @@ else
 
     private async void AddNewPottyPottyBreak(PottyBreak newPottyBreak)
     {
-        await apiClient.SaveOrUpdatePottyBreak(newPottyBreak);
+        await apiClient.SaveOrUpdatePottyBreak(newPottyBreak);        
     }
 }

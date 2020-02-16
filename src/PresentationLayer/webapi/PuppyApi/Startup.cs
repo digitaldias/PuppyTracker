@@ -32,7 +32,7 @@ namespace PuppyApi
             services.AddSingleton(typeof(IPottyBreakRepository), typeof(PottyBreakRepository));
             
             // Scoped instances
-            services.AddScoped(typeof(IPottyBreaksManager), typeof(PottyBreaksManager));
+            services.AddSingleton(typeof(IPottyBreaksManager), typeof(PottyBreaksManager));
 
             services.AddControllers();
             services.AddCors(options => 

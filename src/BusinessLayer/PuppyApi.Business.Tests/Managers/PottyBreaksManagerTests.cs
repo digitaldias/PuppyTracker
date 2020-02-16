@@ -79,11 +79,41 @@ namespace PuppyApi.Business.Tests.Managers
             results.Count().Should().Equals(10);
         }
 
+        [Fact]
+        public async Task DeleteAsync_PottyBreakIsNull_InstantlyReturns()
+        {
+            // Arrange
+            var anyFunction = It.IsAny<Func<Task>>();
+            var anyPottyBreak = It.IsAny<PottyBreak>();
+
+            // Act
+            await Instance.DeleteAsync(null);
+
+            // Assert
+            GetMockFor<IExceptionHandler>().Verify(h => h.RunAsync(anyFunction), Times.Never());
+            GetMockFor<IPottyBreakRepository>().Verify(r => r.DeleteAsync(anyPottyBreak), Times.Never());
+        }
+
+        [Fact]
+        public async Task DeleteAsync_PottyBreakIsValid_ExecutesDelete()
+        {
+            // Arrange
+            EnsureExceptionHandlerIsReal();
+            var pottyBreak = Builder<PottyBreak>.CreateNew().Build();
+
+            // Act
+            await Instance.DeleteAsync(pottyBreak);
+
+            // Assert
+            GetMockFor<IPottyBreakRepository>().Verify(r => r.DeleteAsync(pottyBreak), Times.Once());
+        }
+
+
         #region Helpers
 
         private void EnsureExceptionHandlerIsReal()
-        {
-            Inject<IExceptionHandler>(new ExceptionHandler());
+        {            
+            InjectSingle<IExceptionHandler>(new ExceptionHandler());
         }
 
         #endregion
