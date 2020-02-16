@@ -13,9 +13,6 @@ namespace PuppyApi.Data.AzureStorage
     {
         private readonly CloudTable _tableReference;
 
-        private DateTime         _lastGetAllTime;
-        private List<PottyBreak> _cachedPottyBreaks;
-
         public PottyBreakRepository()
         {
             var storageConnectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
@@ -25,8 +22,9 @@ namespace PuppyApi.Data.AzureStorage
                 storageConnectionString = GetStorageConnectionStringFromFile();
 
             var cloudStorageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            var tableClient = cloudStorageAccount.CreateCloudTableClient();
-            _tableReference = tableClient.GetTableReference("puppytrackertable");
+            var tableClient         = cloudStorageAccount.CreateCloudTableClient();
+
+            _tableReference         = tableClient.GetTableReference("puppytrackertable");
         }
 
         public async Task InitializeAsync()
@@ -36,25 +34,20 @@ namespace PuppyApi.Data.AzureStorage
 
         public async Task DeleteAsync(PottyBreak pottyBreak)
         {
-            var tableEntity = pottyBreak.AsDynamicTableEntity();
+            var tableEntity     = pottyBreak.AsDynamicTableEntity();
             var deleteOperation = TableOperation.Delete(tableEntity);
+            var tableResult     = await _tableReference.ExecuteAsync(deleteOperation);
 
-            var tableResult = await _tableReference.ExecuteAsync(deleteOperation);
             if(tableResult.HttpStatusCode >= 200 && tableResult.HttpStatusCode < 300)
             {
-                _cachedPottyBreaks.RemoveAll(p => p.Id == pottyBreak.Id);
+                // What to do
             }            
         }
 
         public async Task<IEnumerable<PottyBreak>> GetAllAsync()
         {
-            var elapsedTime = DateTime.Now - _lastGetAllTime;
-            if (elapsedTime < TimeSpan.FromMinutes(3))
-                return _cachedPottyBreaks;
-
-
-            var query = new TableQuery<DynamicTableEntity>();
-            var token = new TableContinuationToken();
+            var query        = new TableQuery<DynamicTableEntity>();
+            var token        = new TableContinuationToken();
             var totalEntries = new List<DynamicTableEntity>();
 
             do
@@ -65,21 +58,15 @@ namespace PuppyApi.Data.AzureStorage
 
             } while (token != null);
 
-            _lastGetAllTime    = DateTime.Now;
-            _cachedPottyBreaks =  totalEntries.Select(entity => entity.AsPottyBreak()).ToList();
-
-            return _cachedPottyBreaks;
+            return totalEntries.Select(entity => entity.AsPottyBreak()).ToList();
         }
 
         public async Task<PottyBreak> GetById(Guid verifiedGuid)
         {
             var retrieveOperation = TableOperation.Retrieve<DynamicTableEntity>(PottyBreakHelpers.PottyBreakPartitionKey, verifiedGuid.ToString());
-            var executeResult = await _tableReference.ExecuteAsync(retrieveOperation);
+            var executeResult     = await _tableReference.ExecuteAsync(retrieveOperation);
 
             if (executeResult == null)
-                return null;
-
-            if (executeResult.Result is DynamicTableEntity == false)
                 return null;
 
             var entity = (DynamicTableEntity)executeResult.Result;
@@ -89,18 +76,16 @@ namespace PuppyApi.Data.AzureStorage
 
         public async Task SaveAsync(PottyBreak pottyBreak)
         {
-            var entity = pottyBreak.AsDynamicTableEntity();
+            var entity          = pottyBreak.AsDynamicTableEntity();
             var insertOperation = TableOperation.InsertOrReplace(entity);
 
             await _tableReference.ExecuteAsync(insertOperation);
-            _cachedPottyBreaks.Add(pottyBreak);
-            _lastGetAllTime = DateTime.Now;
         }
 
         private static string GetStorageConnectionStringFromFile()
         {
             var myDocumentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var fileName = Path.Combine(myDocumentsFolder, "puppyTrackerSettings.txt");
+            var fileName          = Path.Combine(myDocumentsFolder, "puppyTrackerSettings.txt");
 
             if (!File.Exists(fileName))
                 throw new InvalidProgramException("Unable to locate storage connection string");
