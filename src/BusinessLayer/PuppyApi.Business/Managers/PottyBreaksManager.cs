@@ -10,7 +10,7 @@ namespace PuppyApi.Business.Managers
 {
     public class PottyBreaksManager : IPottyBreaksManager
     {
-        private readonly IExceptionHandler _exceptionHandler;
+        private readonly IExceptionHandler     _exceptionHandler;
         private readonly IPottyBreakRepository _pottyBreakRepository;
 
         public PottyBreaksManager(IExceptionHandler exceptionHandler, IPottyBreakRepository pottyBreakRepository)
@@ -32,7 +32,7 @@ namespace PuppyApi.Business.Managers
         }
 
         public async Task<IEnumerable<PottyBreak>> GetAllAsync()
-        {
+        {            
             return await _exceptionHandler.GetAsync(() => _pottyBreakRepository.GetAllAsync());
         }
 
