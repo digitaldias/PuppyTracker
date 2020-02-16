@@ -45,7 +45,7 @@ else
 @code {
     private PottyBreak _pottyBreak { get; set; }
 
-    [Parameter] public Action<PottyBreak> SaveNewPottyBreak { get; set; }
+    [Parameter] public Func<PottyBreak, Task> SaveNewPottyBreak { get; set; }
 
     private void CreateNewPottyBreak()
     {

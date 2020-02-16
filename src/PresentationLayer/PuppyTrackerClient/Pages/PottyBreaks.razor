@@ -1,6 +1,7 @@
 ﻿@page "/pottyBreaks"
 @using PuppyApi.Domain.Entities
 @using PuppyTrackerClient.Data
+@inject IJSRuntime jsRuntime
 
 <h1>PottyBreaks</h1>
 
@@ -13,9 +14,10 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>                
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>             
+                <th>&nbsp;</th>
                 <th>When</th>
                 <th>Peed</th>
                 <th>Pooed</th>
@@ -25,7 +27,8 @@ else
         <tbody>
             @foreach (var pottyBreak in _pottyBreaks)
             {
-                <tr>                    
+                <tr>      
+                    <td><button @onclick="() => DeleteCurrent(pottyBreak)"><span class="oi oi-trash">&nbsp;</span></button></td>
                     <td>@pottyBreak.DateTime.ToString("dddd, dd MMM HH:mm")</td>
                     <td>@pottyBreak.Peed</td>
                     <td>@pottyBreak.Pooed</td>
@@ -38,18 +41,47 @@ else
 
 @code 
 {    
-    private PottyBreak[] _pottyBreaks;
-
+    private List<PottyBreak> _pottyBreaks;
     private PottyBreakApiClient apiClient { get; set; }
+
+    private async Task DeleteCurrent(PottyBreak pottyBreak)
+    {
+        bool confirmed = await jsRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+        if(confirmed)
+        {
+            await apiClient.DeletePottyBreak(pottyBreak);            
+        }
+    }
+
+    private async Task AddNewPottyPottyBreak(PottyBreak newPottyBreak)
+    {
+        await apiClient.SaveOrUpdatePottyBreak(newPottyBreak);
+        _pottyBreaks.Add(newPottyBreak);
+        
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _pottyBreaks = (await apiClient.GetPottyBreaksAsync()).ToList();
+        await base.OnParametersSetAsync();
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        apiClient = new PottyBreakApiClient();
-        _pottyBreaks = await apiClient.GetPottyBreaksAsync();
+        if(apiClient is null)
+        {
+            apiClient = new PottyBreakApiClient();
+            apiClient.Notify += OnNotified;
+
+        }
+
+        _pottyBreaks = (await apiClient.GetPottyBreaksAsync()).ToList();
+
+        await base.OnInitializedAsync();
     }
 
-    private async void AddNewPottyPottyBreak(PottyBreak newPottyBreak)
+    public async Task OnNotified(PottyBreak pottyBreak)
     {
-        await apiClient.SaveOrUpdatePottyBreak(newPottyBreak);        
+        await InvokeAsync(() => StateHasChanged());
     }
 }

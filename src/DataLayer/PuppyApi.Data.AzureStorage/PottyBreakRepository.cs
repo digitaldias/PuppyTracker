@@ -39,7 +39,11 @@ namespace PuppyApi.Data.AzureStorage
             var tableEntity = pottyBreak.AsDynamicTableEntity();
             var deleteOperation = TableOperation.Delete(tableEntity);
 
-            await _tableReference.ExecuteAsync(deleteOperation);
+            var tableResult = await _tableReference.ExecuteAsync(deleteOperation);
+            if(tableResult.HttpStatusCode >= 200 && tableResult.HttpStatusCode < 300)
+            {
+                _cachedPottyBreaks.RemoveAll(p => p.Id == pottyBreak.Id);
+            }            
         }
 
         public async Task<IEnumerable<PottyBreak>> GetAllAsync()
@@ -69,7 +73,6 @@ namespace PuppyApi.Data.AzureStorage
 
         public async Task<PottyBreak> GetById(Guid verifiedGuid)
         {
-
             var retrieveOperation = TableOperation.Retrieve<DynamicTableEntity>(PottyBreakHelpers.PottyBreakPartitionKey, verifiedGuid.ToString());
             var executeResult = await _tableReference.ExecuteAsync(retrieveOperation);
 

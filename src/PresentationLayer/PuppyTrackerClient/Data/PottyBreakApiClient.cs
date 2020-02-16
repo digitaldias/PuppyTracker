@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 using PuppyApi.Domain.Entities;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -10,6 +11,8 @@ namespace PuppyTrackerClient.Data
 {
     public class PottyBreakApiClient : PottyTrackerApiClientBase
     {
+        public event Func<PottyBreak, Task> Notify;
+
         public PottyBreakApiClient()
             : base("potty")
         {
@@ -25,6 +28,21 @@ namespace PuppyTrackerClient.Data
             return null;
         }
 
+        public async Task DeletePottyBreak(PottyBreak pottyBreak)
+        {
+            var url = $"{ResourceUrl}/{pottyBreak.Id.ToString()}";
+            var response = await HttpClient.DeleteAsync(url);
+
+            if(!response.IsSuccessStatusCode)
+            {
+                //TODO: Log this too
+            }
+            else
+            {
+                Notify?.Invoke(pottyBreak);
+            }
+        }
+
         public async Task SaveOrUpdatePottyBreak(PottyBreak pottyBreak)
         {
             var json     = JsonConvert.SerializeObject(pottyBreak);            
@@ -34,6 +52,10 @@ namespace PuppyTrackerClient.Data
             if (!response.IsSuccessStatusCode)
             {
                 //TODO: Let's log this
+            }
+            else
+            {
+                Notify?.Invoke(pottyBreak);
             }
         }
     }
