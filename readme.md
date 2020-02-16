@@ -7,6 +7,13 @@ This project is all about tracking your puppy's logistics, feeding, pooping and 
 The purpose of this project is to deploy it to a Raspberry Pi 4 with a touch-screen. 
 It will serve as a data-gathering point located close to the puppy's crate. Backed by an Asp.Net core backend, the data is gathered and posted to an Azure Storage table for reporting in Excel and/or PowerBI. 
 
+## Implementation
+The solution has two main components: 
+- A WebApi, aptly named `PuppyApi` for which all CRUD operations are performed
+- A `PuppyTrackerClient` project, written in Microsoft Asp.Net Blazor Web-hosted components environment. 
+
+The WebApi builds on a standard *domain-driven design* principle. 
+
 
 
 
