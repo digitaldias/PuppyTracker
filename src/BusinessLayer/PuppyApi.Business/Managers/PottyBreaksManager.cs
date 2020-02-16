@@ -18,7 +18,7 @@ namespace PuppyApi.Business.Managers
             if (exceptionHandler is null)       throw new ArgumentNullException(nameof(exceptionHandler));
             if (pottyBreakRepository is null)   throw new ArgumentNullException(nameof(pottyBreakRepository));
 
-            _exceptionHandler = exceptionHandler;
+            _exceptionHandler     = exceptionHandler;
             _pottyBreakRepository = pottyBreakRepository;
         }
 
