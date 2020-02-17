@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using PuppyApi.Data;
-using PuppyApi.Domain.Contracts.Handlers;
+﻿using Microsoft.AspNetCore.Mvc;
 using PuppyApi.Domain.Contracts.Managers;
 using PuppyApi.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PuppyApi.Controllers
 {
