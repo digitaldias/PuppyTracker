@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Extensions.Configuration;
 using PuppyApi.Domain.Contracts.Repositories;
 using PuppyApi.Domain.Entities;
 using System;
@@ -13,13 +14,12 @@ namespace PuppyApi.Data.AzureStorage
     {
         private readonly CloudTable _tableReference;
 
-        public PottyBreakRepository()
+        public PottyBreakRepository(IConfiguration configuration)
         {
-            var storageConnectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
-
-            //TODO: Hack! fix later
+            var storageConnectionString = configuration["AzureStorage:ConnectionString"];
+            
             if (string.IsNullOrEmpty(storageConnectionString))
-                storageConnectionString = GetStorageConnectionStringFromFile();
+                throw new ArgumentNullException(nameof(storageConnectionString));
 
             var cloudStorageAccount = CloudStorageAccount.Parse(storageConnectionString);
             var tableClient         = cloudStorageAccount.CreateCloudTableClient();
@@ -81,17 +81,5 @@ namespace PuppyApi.Data.AzureStorage
 
             await _tableReference.ExecuteAsync(insertOperation);
         }
-
-        private static string GetStorageConnectionStringFromFile()
-        {
-            var myDocumentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var fileName          = Path.Combine(myDocumentsFolder, "puppyTrackerSettings.txt");
-
-            if (!File.Exists(fileName))
-                throw new InvalidProgramException("Unable to locate storage connection string");
-
-            return File.ReadAllText(fileName);
-        }
-
     }
 }

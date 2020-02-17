@@ -1,3 +1,4 @@
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -10,6 +11,7 @@ using PuppyApi.Data.AzureStorage;
 using PuppyApi.Domain.Contracts.Handlers;
 using PuppyApi.Domain.Contracts.Managers;
 using PuppyApi.Domain.Contracts.Repositories;
+using PuppyApi.Initialization;
 
 namespace PuppyApi
 {
@@ -28,11 +30,15 @@ namespace PuppyApi
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0).AddMvcOptions(o => o.EnableEndpointRouting = false);
 
             // Singletons
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton(typeof(IExceptionHandler), typeof(ExceptionHandler));
             services.AddSingleton(typeof(IPottyBreakRepository), typeof(PottyBreakRepository));
+            services.AddSingleton(typeof(ITelemetryInitializer), typeof(ServiceNameInitializer));
             
             // Scoped instances
             services.AddSingleton(typeof(IPottyBreaksManager), typeof(PottyBreaksManager));
+
+            services.AddApplicationInsightsTelemetry();
 
             services.AddControllers();
             services.AddCors(options => 

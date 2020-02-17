@@ -15,14 +15,20 @@ The solution has two main components in the presentation layer:
 - A `PuppyTrackerClient` project, written in Microsoft Asp.Net Blazor Web-hosted components environment for providing a rich, SPA environment. 
 
 ## Installation / Requirements
-In order to successfully run this code, you'll need to set up an Azure Storage Account. The solution uses Azure Table Storage as it's main repository, 
-and so you either need to set an environment variable named `StorageConnectionString` for running the code, or add a text file named `puppyTrackerSettings.txt` with the connection string
-set. 
+In order to successfully run this code, you'll need to set up an `Azure Storage Account` and an `Application Insights Instance`. The solution uses Azure Table Storage as it's main repository, and tracks telemetry using the insights instance.
 
-| Operating System | Location for 'puppyTrackerSettings.txt' | 
-| ---------------- | --------------------------------------- |
-| Windows          | My Documents folder                     |
-| Linux            | '\\'                                     |
+Add the following secrets to your configuration: 
+
+```json
+{
+  "ApplicationInsights": {
+    "InstrumentationKey": "<your Application Insights instrumentation key>"
+  },
+  "AzureStorage": {
+    "ConnectionString": "<full connection string to your Azure Storage account>"
+  }
+}
+```
 
 
 
