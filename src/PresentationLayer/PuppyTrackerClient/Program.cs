@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.IO;
 
 namespace PuppyTrackerClient
 {
@@ -11,7 +14,14 @@ namespace PuppyTrackerClient
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)            
+            Host.CreateDefaultBuilder(args)   
+            .ConfigureAppConfiguration(config => {
+                var basePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var filePath = Path.Combine(basePath, "puppytrackersettings.json");
+
+                if (File.Exists(filePath))
+                    config.AddJsonFile(filePath);            
+            })
            .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
