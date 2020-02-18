@@ -1,5 +1,4 @@
-﻿using PuppyApi.Domain.Contracts.Handlers;
-using PuppyApi.Domain.Contracts.Managers;
+﻿using PuppyApi.Domain.Contracts.Managers;
 using PuppyApi.Domain.Contracts.Repositories;
 using PuppyApi.Domain.Contracts.Validation;
 using PuppyApi.Domain.Entities;
@@ -11,19 +10,19 @@ namespace PuppyApi.Business.Managers
 {
     public class PottyBreaksManager : IPottyBreaksManager
     {
-        private readonly IExceptionHandler     _exceptionHandler;
-        private readonly IPottyBreakRepository _pottyBreakRepository;
-        private readonly IValidator<DateTime> _dateEntryValidator;
+        private readonly IPottyBreakRepository          _pottyBreakRepository;
+        private readonly IValidator<DateTime>           _dateEntryValidator;
+        private readonly ISimpleCache<Guid, PottyBreak> _simpleCache;
 
-        public PottyBreaksManager(IExceptionHandler exceptionHandler, IPottyBreakRepository pottyBreakRepository, IValidator<DateTime> dateEntryValidator)
+        public PottyBreaksManager(IPottyBreakRepository pottyBreakRepository, IValidator<DateTime> dateEntryValidator, ISimpleCache<Guid, PottyBreak> simpleCache)
         {
-            if (exceptionHandler is null)       throw new ArgumentNullException(nameof(exceptionHandler));
             if (pottyBreakRepository is null)   throw new ArgumentNullException(nameof(pottyBreakRepository));
             if (dateEntryValidator is null)     throw new ArgumentNullException(nameof(dateEntryValidator));
+            if (simpleCache is null)            throw new ArgumentException(nameof(simpleCache));
 
-            _exceptionHandler     = exceptionHandler;
             _pottyBreakRepository = pottyBreakRepository;
             _dateEntryValidator   = dateEntryValidator;
+            _simpleCache          = simpleCache;
         }
 
         public async Task DeleteAsync(PottyBreak pottyBreak)
@@ -32,7 +31,7 @@ namespace PuppyApi.Business.Managers
             if (pottyBreak is null)
                 return;
 
-            await _exceptionHandler.RunAsync(() => _pottyBreakRepository.DeleteAsync(pottyBreak));
+            await _simpleCache.RemoveAsync(pottyBreak, _pottyBreakRepository.DeleteAsync);            
         }
 
         public async Task<IEnumerable<PottyBreak>> GetAllAsync(int max)
@@ -40,7 +39,7 @@ namespace PuppyApi.Business.Managers
             if (max <= 0)
                 return new List<PottyBreak>();
 
-            return await _exceptionHandler.GetAsync(() => _pottyBreakRepository.GetAllAsync(max));
+            return await _simpleCache.GetAllAsync(_pottyBreakRepository.GetAllAsync);
         }
 
         public async Task<PottyBreak> GetByIdAsync(string id)
@@ -52,7 +51,7 @@ namespace PuppyApi.Business.Managers
             if (!couldParse)
                 return null;
 
-            return await _exceptionHandler.GetAsync(() => _pottyBreakRepository.GetById(verifiedGuid));
+            return await _simpleCache.GetByIdAsync(verifiedGuid, _pottyBreakRepository.GetById);
         }
 
         public async Task SaveAsync(PottyBreak pottyBreak)
@@ -64,7 +63,7 @@ namespace PuppyApi.Business.Managers
             if (!_dateEntryValidator.IsValid(pottyBreak.DateTime))
                 return;
 
-            await _exceptionHandler.RunAsync(() => _pottyBreakRepository.SaveAsync(pottyBreak));
+            await _simpleCache.AddAsync(pottyBreak, _pottyBreakRepository.SaveAsync);
         }
     }
 }

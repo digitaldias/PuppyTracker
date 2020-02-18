@@ -13,6 +13,7 @@ using PuppyApi.Domain.Contracts.Handlers;
 using PuppyApi.Domain.Contracts.Managers;
 using PuppyApi.Domain.Contracts.Repositories;
 using PuppyApi.Domain.Contracts.Validation;
+using PuppyApi.Domain.Entities;
 using PuppyApi.Initialization;
 using System;
 
@@ -37,6 +38,7 @@ namespace PuppyApi
             services.AddSingleton<ITelemetryInitializer, ServiceNameInitializer>();
             services.AddSingleton<IExceptionHandler,     ExceptionHandler>();
             services.AddSingleton<IPottyBreakRepository, PottyBreakRepository>();
+            services.AddSingleton<ISimpleCache<Guid, PottyBreak>, PottyBreaksCache>();
 
             // Validators
             services.AddSingleton<IValidator<DateTime>, DateEntryValidator>();

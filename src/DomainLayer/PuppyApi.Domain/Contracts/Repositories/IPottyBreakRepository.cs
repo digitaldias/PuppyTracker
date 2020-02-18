@@ -13,8 +13,8 @@ namespace PuppyApi.Domain.Contracts.Repositories
 
         Task<PottyBreak> GetById(Guid verifiedGuid);
         
-        Task SaveAsync(PottyBreak pottyBreak);
+        Task<bool> SaveAsync(PottyBreak pottyBreak);
         
-        Task DeleteAsync(PottyBreak pottyBreak);
+        Task<bool> DeleteAsync(PottyBreak pottyBreak);
     }
 }

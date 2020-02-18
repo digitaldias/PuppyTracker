@@ -31,16 +31,13 @@ namespace PuppyApi.Data.AzureStorage
             await _tableReference.CreateIfNotExistsAsync();
         }
 
-        public async Task DeleteAsync(PottyBreak pottyBreak)
+        public async Task<bool> DeleteAsync(PottyBreak pottyBreak)
         {
             var tableEntity     = pottyBreak.AsDynamicTableEntity();
             var deleteOperation = TableOperation.Delete(tableEntity);
             var tableResult     = await _tableReference.ExecuteAsync(deleteOperation);
 
-            if(tableResult.HttpStatusCode >= 200 && tableResult.HttpStatusCode < 300)
-            {
-                // What to do
-            }            
+            return tableResult.HttpStatusCode >= 200 && tableResult.HttpStatusCode < 300;
         }
 
         public async Task<IEnumerable<PottyBreak>> GetAllAsync(int max)
@@ -73,12 +70,14 @@ namespace PuppyApi.Data.AzureStorage
             return entity.AsPottyBreak();
         }
 
-        public async Task SaveAsync(PottyBreak pottyBreak)
+        public async Task<bool> SaveAsync(PottyBreak pottyBreak)
         {
             var entity          = pottyBreak.AsDynamicTableEntity();
             var insertOperation = TableOperation.InsertOrReplace(entity);
 
-            await _tableReference.ExecuteAsync(insertOperation);
+            var tableResult = await _tableReference.ExecuteAsync(insertOperation);
+
+            return tableResult.HttpStatusCode >= 200 && tableResult.HttpStatusCode < 300;
         }
     }
 }
