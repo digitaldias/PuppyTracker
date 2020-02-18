@@ -11,31 +11,47 @@ using PuppyApi.Business.Handlers;
 using FizzWare.NBuilder;
 using PuppyApi.Domain.Entities;
 using System.Linq;
+using PuppyApi.Domain.Contracts.Validation;
 
 namespace PuppyApi.Business.Tests.Managers
 {
     public class PottyBreaksManagerTests : TestsFor<PottyBreaksManager>
     {
         [Fact]
-        public void Constructor_ExceptionHandlerIsNull_ThrowsExeption()
+        public void Constructor_ExceptionHandlerIsNull_ThrowsException()
         {
             // Arrange
             IExceptionHandler nullHandler = null;
             var repoMock = new Mock<IPottyBreakRepository>();
+            var validatorMock = new Mock<IValidator<DateTime>>();
             
             // Act
-            Assert.Throws<ArgumentNullException>(() => Instance = new PottyBreaksManager(nullHandler, repoMock.Object));
+            Assert.Throws<ArgumentNullException>(() => Instance = new PottyBreaksManager(nullHandler, repoMock.Object, validatorMock.Object));
         }
 
         [Fact]
-        public void Constructor_RepositoryIsNull_ThrowsExeption()
+        public void Constructor_ValidatorIsNull_ThrowsException()
         {
             // Arrange
             var exeHandlerMock = new Mock<IExceptionHandler>();
+            var repoMock = new Mock<IPottyBreakRepository>();
+            IValidator<DateTime> nullValidator = null;
+
+            // Act
+            Assert.Throws<ArgumentNullException>(() => Instance = new PottyBreaksManager(exeHandlerMock.Object, repoMock.Object, nullValidator));
+        }
+
+
+        [Fact]
+        public void Constructor_RepositoryIsNull_ThrowsException()
+        {
+            // Arrange
+            var exeHandlerMock = new Mock<IExceptionHandler>();
+            var validatorMock = new Mock<IValidator<DateTime>>();
             IPottyBreakRepository nullRepo = null;
 
             // Act
-            Assert.Throws<ArgumentNullException>(() => Instance = new PottyBreaksManager(exeHandlerMock.Object, nullRepo));
+            Assert.Throws<ArgumentNullException>(() => Instance = new PottyBreaksManager(exeHandlerMock.Object, nullRepo, validatorMock.Object));
         }
 
         [Fact]
@@ -57,6 +73,7 @@ namespace PuppyApi.Business.Tests.Managers
             // Assert
             result.Should().BeEmpty();
         }
+
 
         [Fact]
         public async Task GetAllAsync_RepositoryReturnsTenPottyBreaks_ResultIsTenPottyBreaks()
@@ -84,8 +101,9 @@ namespace PuppyApi.Business.Tests.Managers
         public async Task DeleteAsync_PottyBreakIsNull_InstantlyReturns()
         {
             // Arrange
-            var anyFunction = It.IsAny<Func<Task>>();
+            var anyFunction   = It.IsAny<Func<Task>>();
             var anyPottyBreak = It.IsAny<PottyBreak>();
+            var anyDateTime   = It.IsAny<DateTime>();
 
             // Act
             await Instance.DeleteAsync(null);
@@ -93,6 +111,7 @@ namespace PuppyApi.Business.Tests.Managers
             // Assert
             GetMockFor<IExceptionHandler>().Verify(h => h.RunAsync(anyFunction), Times.Never());
             GetMockFor<IPottyBreakRepository>().Verify(r => r.DeleteAsync(anyPottyBreak), Times.Never());
+            GetMockFor<IValidator<DateTime>>().Verify(v => v.IsValid(anyDateTime), Times.Never());
         }
 
         [Fact]
@@ -109,12 +128,30 @@ namespace PuppyApi.Business.Tests.Managers
             GetMockFor<IPottyBreakRepository>().Verify(r => r.DeleteAsync(pottyBreak), Times.Once());
         }
 
+        [Fact]
+        public async Task SaveAsync_DateValidationFails_DoesNotSave()
+        {
+            // Arrange
+            var anyDate = It.IsAny<DateTime>();
+            EnsureExceptionHandlerIsReal();
+            GetMockFor<IValidator<DateTime>>().Setup(v => v.IsValid(anyDate)).Returns(false);
+            var pottyBreak = Builder<PottyBreak>.CreateNew().Build();
+
+            // Act
+            await Instance.SaveAsync(pottyBreak);
+
+            // Assert
+            GetMockFor<IPottyBreakRepository>().Verify(r => r.SaveAsync(pottyBreak), Times.Never());
+        }
+
 
         #region Helpers
 
         private void EnsureExceptionHandlerIsReal()
         {            
             InjectSingle<IExceptionHandler>(new ExceptionHandler());
+            var anyDateTime = It.IsAny<DateTime>();
+            GetMockFor<IValidator<DateTime>>().Setup(v => v.IsValid(anyDateTime)).Returns(true);
         }
 
         #endregion

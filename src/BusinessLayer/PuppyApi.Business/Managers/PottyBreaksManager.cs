@@ -1,6 +1,7 @@
 ﻿using PuppyApi.Domain.Contracts.Handlers;
 using PuppyApi.Domain.Contracts.Managers;
 using PuppyApi.Domain.Contracts.Repositories;
+using PuppyApi.Domain.Contracts.Validation;
 using PuppyApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,17 @@ namespace PuppyApi.Business.Managers
     {
         private readonly IExceptionHandler     _exceptionHandler;
         private readonly IPottyBreakRepository _pottyBreakRepository;
+        private readonly IValidator<DateTime> _dateEntryValidator;
 
-        public PottyBreaksManager(IExceptionHandler exceptionHandler, IPottyBreakRepository pottyBreakRepository)
+        public PottyBreaksManager(IExceptionHandler exceptionHandler, IPottyBreakRepository pottyBreakRepository, IValidator<DateTime> dateEntryValidator)
         {
             if (exceptionHandler is null)       throw new ArgumentNullException(nameof(exceptionHandler));
             if (pottyBreakRepository is null)   throw new ArgumentNullException(nameof(pottyBreakRepository));
+            if (dateEntryValidator is null)     throw new ArgumentNullException(nameof(dateEntryValidator));
 
             _exceptionHandler     = exceptionHandler;
             _pottyBreakRepository = pottyBreakRepository;
+            _dateEntryValidator   = dateEntryValidator;
         }
 
         public async Task DeleteAsync(PottyBreak pottyBreak)
@@ -55,6 +59,9 @@ namespace PuppyApi.Business.Managers
         {
             //TODO: Log?
             if (pottyBreak is null)
+                return;
+
+            if (!_dateEntryValidator.IsValid(pottyBreak.DateTime))
                 return;
 
             await _exceptionHandler.RunAsync(() => _pottyBreakRepository.SaveAsync(pottyBreak));
