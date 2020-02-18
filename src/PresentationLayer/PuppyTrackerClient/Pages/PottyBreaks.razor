@@ -6,7 +6,7 @@
 <h1>PottyBreaks</h1>
 
 <p>When is your dog doing his stuff?</p>
-<SinglePottyBreak SavePottyBreak="SaveOrUpdatePottyBreak" />
+<SinglePottyBreak SavePottyBreak="SaveOrUpdatePottyBreak" SelectedPottyBreak="_selectedPottyBreak"/>
 <br />
 @if (_pottyBreaks == null)
 {
@@ -27,7 +27,7 @@ else
         <tbody>
             @foreach (var pottyBreak in _pottyBreaks)
             {
-                <tr>      
+                <tr @onclick="() => _selectedPottyBreak = pottyBreak">      
                     <td><button @onclick="() => DeleteCurrent(pottyBreak)"><span class="oi oi-trash">&nbsp;</span></button></td>
                     <td>@pottyBreak.DateTime.ToString("dddd, dd MMM HH:mm")</td>
                     <td>@pottyBreak.Peed</td>
@@ -41,15 +41,18 @@ else
 
 @code 
 {    
+
     private List<PottyBreak> _pottyBreaks;
+    private PottyBreak _selectedPottyBreak;
     private PottyBreakApiClient apiClient { get; set; }
+
 
     private async Task DeleteCurrent(PottyBreak pottyBreak)
     {
         bool confirmed = await jsRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
         if(confirmed)
         {
-            await apiClient.DeletePottyBreak(pottyBreak);            
+            await apiClient.DeletePottyBreak(pottyBreak);
         }
     }
 
@@ -57,7 +60,7 @@ else
     {
         await apiClient.SaveOrUpdatePottyBreak(newPottyBreak);
         _pottyBreaks.Add(newPottyBreak);
-        
+
     }
 
     protected override async Task OnParametersSetAsync()

@@ -3,7 +3,7 @@
 
 <hr />
 @if (_pottyBreak == null)
-{    
+{
     <div>
         <button class="btn btn-info btn-lg" @onclick="CreateNewPottyBreak">New Potty Action!</button>
     </div>
@@ -55,8 +55,21 @@ else
     private PottyBreak _pottyBreak { get; set; }
     private LocalTime SelectedTime { get; set; }
 
+
+
     // Parameters
     [Parameter] public Func<PottyBreak, Task> SavePottyBreak { get; set; }
+    [Parameter] public PottyBreak SelectedPottyBreak
+    {
+        get { return _pottyBreak;  }
+        set
+        {
+            if (_pottyBreak == value)
+                return;
+
+            _pottyBreak = value;
+        }
+    }
 
     private void FocusOnTime()
     {
