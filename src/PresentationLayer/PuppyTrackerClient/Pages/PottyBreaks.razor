@@ -6,7 +6,7 @@
 <h1>PottyBreaks</h1>
 
 <p>When is your dog doing his stuff?</p>
-<SinglePottyBreak SaveNewPottyBreak="AddNewPottyPottyBreak" />
+<SinglePottyBreak SavePottyBreak="SaveOrUpdatePottyBreak" />
 <br />
 @if (_pottyBreaks == null)
 {
@@ -53,7 +53,7 @@ else
         }
     }
 
-    private async Task AddNewPottyPottyBreak(PottyBreak newPottyBreak)
+    private async Task SaveOrUpdatePottyBreak(PottyBreak newPottyBreak)
     {
         await apiClient.SaveOrUpdatePottyBreak(newPottyBreak);
         _pottyBreaks.Add(newPottyBreak);

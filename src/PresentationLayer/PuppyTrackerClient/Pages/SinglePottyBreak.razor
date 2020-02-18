@@ -1,4 +1,5 @@
 ﻿@using PuppyApi.Domain.Entities
+@using NodaTime
 
 <hr />
 @if (_pottyBreak == null)
@@ -11,10 +12,17 @@ else
 {
     <div class="container">
 
-        <h3>New potty: @_pottyBreak.DateTime.ToString("dddd, dd MMM HH:mm")</h3>
-        <small class="small disabled">ID: @_pottyBreak.Id</small>
+        <h3>New potty event: <b>@_pottyBreak.DateTime.ToString("dddd, dd MMM HH:mm")</b></h3>
         <br />
         <form>
+            <input type="hidden" value="@_pottyBreak.Id" />                
+
+            <div class="form-group">
+                <label for="timeBox">Date and time:</label>
+                <input id="timeBox" type="text" @onfocus=@FocusOnTime @bind="_pottyBreak.DateTime" />
+                <NodaTimePicker.TimePicker Visible=@TimePickerVisible OnSelectedTimeChanged=@TimeChanged ShowClose=true CloseOnSelect=true Is24Hour=true />
+            </div>
+
             <div class="funkyradio">
                 <div class="funkyradio-success">
                     <input type="checkbox" class="funkyradio-default" @bind="_pottyBreak.Peed" id="peedCheck" />
@@ -31,21 +39,37 @@ else
                 <label for="commentBox">Comment:</label>
                 <input type="text" class="form-control" @bind="_pottyBreak.Comment" />
             </div>
-    
+            
             <div>
-                <button class="btn btn-primary btn-lg" @onclick="AddToParent">Add</button>
+                <button class="btn btn-primary btn-lg" @onclick="InvokeSave">Save</button>
                 <button class="btn btn-warning btn-lg" @onclick="Cancel">Cancel</button>
             </div>
         </form>
     </div>
 }
 
-
-
 @code {
-    private PottyBreak _pottyBreak { get; set; }
 
-    [Parameter] public Func<PottyBreak, Task> SaveNewPottyBreak { get; set; }
+    // Locals
+    private bool TimePickerVisible = false;
+    private PottyBreak _pottyBreak { get; set; }
+    private LocalTime SelectedTime { get; set; }
+
+    // Parameters
+    [Parameter] public Func<PottyBreak, Task> SavePottyBreak { get; set; }
+
+    private void FocusOnTime()
+    {
+        SelectedTime = new LocalTime(_pottyBreak.DateTime.Hour, _pottyBreak.DateTime.Minute, 0);
+        TimePickerVisible = true;
+    }
+
+    private void TimeChanged(LocalTime newTime)
+    {
+        var timeSpan = new TimeSpan(hours: newTime.Hour, minutes: newTime.Minute, seconds: 0);
+
+        _pottyBreak.DateTime = _pottyBreak.DateTime.Date + timeSpan;
+    }
 
     private void CreateNewPottyBreak()
     {
@@ -55,6 +79,7 @@ else
             DateTime = DateTime.Now,
             Comment = "No comment"
         };
+        SelectedTime = new LocalTime(_pottyBreak.DateTime.Hour, _pottyBreak.DateTime.Minute, 0);
     }
 
     private void Cancel()
@@ -62,8 +87,8 @@ else
         _pottyBreak = null;
     }
 
-    private void AddToParent()
+    private void InvokeSave()
     {
-        SaveNewPottyBreak(_pottyBreak);
+        SavePottyBreak(_pottyBreak);
     }
 }
