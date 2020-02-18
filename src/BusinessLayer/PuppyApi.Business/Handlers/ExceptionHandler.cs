@@ -19,7 +19,7 @@ namespace PuppyApi.Business.Handlers
             {
                 //TODO: Logging? Console output?
             }
-            return null;
+            return default;
         }
 
         public Task RunAsync(Func<Task> unsafeFunction)
