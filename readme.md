@@ -26,6 +26,10 @@ Add the following secrets to your configuration:
   },
   "AzureStorage": {
     "ConnectionString": "<full connection string to your Azure Storage account>"
+  },
+  "PottyBreaks" : {
+    "CacheSize" : 20,
+    "CacheSize_Comment" : "Maximum number of potty breaks to load from storage"
   }
 }
 ```
