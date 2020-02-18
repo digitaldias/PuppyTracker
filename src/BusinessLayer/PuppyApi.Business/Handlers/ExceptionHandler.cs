@@ -1,5 +1,4 @@
-﻿using PuppyApi.Domain.Contracts;
-using PuppyApi.Domain.Contracts.Handlers;
+﻿using PuppyApi.Domain.Contracts.Handlers;
 using System;
 using System.Threading.Tasks;
 
@@ -7,11 +6,14 @@ namespace PuppyApi.Business.Handlers
 {
     public class ExceptionHandler : IExceptionHandler
     {
-        public Task<TResult> GetAsync<TResult>(Func<Task<TResult>> unsafeFask)
+        public Task<TResult> GetAsync<TResult>(Func<Task<TResult>> unsafeTask)
         {
+            if (unsafeTask is null)
+                throw new ArgumentNullException(nameof(unsafeTask));
+
             try
             {
-                return unsafeFask.Invoke();
+                return unsafeTask.Invoke();
             }
             catch
             {
@@ -22,6 +24,9 @@ namespace PuppyApi.Business.Handlers
 
         public Task RunAsync(Func<Task> unsafeFunction)
         {
+            if (unsafeFunction is null)
+                throw new ArgumentNullException(nameof(unsafeFunction));
+
             try
             {
                 return unsafeFunction.Invoke();
