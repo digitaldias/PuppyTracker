@@ -4,7 +4,6 @@ using PuppyApi.Domain.Contracts.Repositories;
 using PuppyApi.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,9 +43,9 @@ namespace PuppyApi.Data.AzureStorage
             }            
         }
 
-        public async Task<IEnumerable<PottyBreak>> GetAllAsync()
+        public async Task<IEnumerable<PottyBreak>> GetAllAsync(int max)
         {
-            var query        = new TableQuery<DynamicTableEntity>();
+            var query        = new TableQuery<DynamicTableEntity>().Take(max);
             var token        = new TableContinuationToken();
             var totalEntries = new List<DynamicTableEntity>();
 
@@ -56,7 +55,7 @@ namespace PuppyApi.Data.AzureStorage
                 token = page.ContinuationToken;
                 totalEntries.AddRange(page.Results);
 
-            } while (token != null);
+            } while (token is { } && totalEntries.Count < max);
 
             return totalEntries.Select(entity => entity.AsPottyBreak()).ToList();
         }

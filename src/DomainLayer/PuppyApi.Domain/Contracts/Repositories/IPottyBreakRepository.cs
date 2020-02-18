@@ -9,7 +9,7 @@ namespace PuppyApi.Domain.Contracts.Repositories
     {
         Task InitializeAsync();
 
-        Task<IEnumerable<PottyBreak>> GetAllAsync();
+        Task<IEnumerable<PottyBreak>> GetAllAsync(int max);
 
         Task<PottyBreak> GetById(Guid verifiedGuid);
         

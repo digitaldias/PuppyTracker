@@ -31,9 +31,12 @@ namespace PuppyApi.Business.Managers
             await _exceptionHandler.RunAsync(() => _pottyBreakRepository.DeleteAsync(pottyBreak));
         }
 
-        public async Task<IEnumerable<PottyBreak>> GetAllAsync()
-        {            
-            return await _exceptionHandler.GetAsync(() => _pottyBreakRepository.GetAllAsync());
+        public async Task<IEnumerable<PottyBreak>> GetAllAsync(int max)
+        {
+            if (max <= 0)
+                return new List<PottyBreak>();
+
+            return await _exceptionHandler.GetAsync(() => _pottyBreakRepository.GetAllAsync(max));
         }
 
         public async Task<PottyBreak> GetByIdAsync(string id)

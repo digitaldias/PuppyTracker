@@ -62,21 +62,22 @@ namespace PuppyApi.Business.Tests.Managers
         public async Task GetAllAsync_RepositoryReturnsTenPottyBreaks_ResultIsTenPottyBreaks()
         {
             // Arrange
+            int numberToGet = 10;
             EnsureExceptionHandlerIsReal();
             var tenPottyBreaks = Builder<PottyBreak>
-                .CreateListOfSize(10)
+                .CreateListOfSize(numberToGet)
                 .Build()
                 .AsEnumerable();
 
             GetMockFor<IPottyBreakRepository>()
-                .Setup(r => r.GetAllAsync())
+                .Setup(r => r.GetAllAsync(numberToGet))
                 .Returns(Task.FromResult(tenPottyBreaks));
 
             // Act
             var results = await Instance.GetAllAsync();
 
             // Assert
-            results.Count().Should().Equals(10);
+            results.Count().Should().Equals(numberToGet);
         }
 
         [Fact]

@@ -25,7 +25,8 @@ namespace PuppyApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<PottyBreak>> GetPottyBreaks()
         {
-            return await _pottyBreaksManager.GetAllAsync();
+            // Get the latest 20
+            return await _pottyBreaksManager.GetAllAsync(20);
         }
 
         [HttpGet("{id}")]

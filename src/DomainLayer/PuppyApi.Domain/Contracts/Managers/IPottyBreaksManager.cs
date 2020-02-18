@@ -8,7 +8,7 @@ namespace PuppyApi.Domain.Contracts.Managers
 {
     public interface IPottyBreaksManager
     {
-        Task<IEnumerable<PottyBreak>> GetAllAsync();
+        Task<IEnumerable<PottyBreak>> GetAllAsync(int max);
 
         Task<PottyBreak> GetByIdAsync(string id);
 
