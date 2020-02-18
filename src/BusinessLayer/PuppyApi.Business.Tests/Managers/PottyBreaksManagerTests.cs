@@ -52,7 +52,7 @@ namespace PuppyApi.Business.Tests.Managers
             EnsureExceptionHandlerIsReal();
 
             // Act
-            var result = await Instance.GetAllAsync();
+            var result = await Instance.GetAllAsync(20);
 
             // Assert
             result.Should().BeEmpty();
@@ -74,7 +74,7 @@ namespace PuppyApi.Business.Tests.Managers
                 .Returns(Task.FromResult(tenPottyBreaks));
 
             // Act
-            var results = await Instance.GetAllAsync();
+            var results = await Instance.GetAllAsync(numberToGet);
 
             // Assert
             results.Count().Should().Equals(numberToGet);
