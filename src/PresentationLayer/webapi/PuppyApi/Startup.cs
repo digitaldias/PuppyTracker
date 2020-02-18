@@ -7,11 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PuppyApi.Business.Handlers;
 using PuppyApi.Business.Managers;
+using PuppyApi.Business.Validation;
 using PuppyApi.Data.AzureStorage;
 using PuppyApi.Domain.Contracts.Handlers;
 using PuppyApi.Domain.Contracts.Managers;
 using PuppyApi.Domain.Contracts.Repositories;
+using PuppyApi.Domain.Contracts.Validation;
 using PuppyApi.Initialization;
+using System;
 
 namespace PuppyApi
 {
@@ -31,12 +34,15 @@ namespace PuppyApi
 
             // Singletons
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddSingleton(typeof(IExceptionHandler), typeof(ExceptionHandler));
-            services.AddSingleton(typeof(IPottyBreakRepository), typeof(PottyBreakRepository));
-            services.AddSingleton(typeof(ITelemetryInitializer), typeof(ServiceNameInitializer));
+            services.AddSingleton<ITelemetryInitializer, ServiceNameInitializer>();
+            services.AddSingleton<IExceptionHandler,     ExceptionHandler>();
+            services.AddSingleton<IPottyBreakRepository, PottyBreakRepository>();
+
+            // Validators
+            services.AddSingleton<IValidator<DateTime>, DateEntryValidator>();
             
             // Scoped instances
-            services.AddSingleton(typeof(IPottyBreaksManager), typeof(PottyBreaksManager));
+            services.AddScoped<IPottyBreaksManager, PottyBreaksManager>();
 
             services.AddApplicationInsightsTelemetry();
 
