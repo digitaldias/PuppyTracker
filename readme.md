@@ -29,6 +29,10 @@ Add the following secrets to your configuration:
   }
 }
 ```
+For convenience, you can put these settings into a file named `puppytrackersettings.json` inside your `My Documents` folder in Windows, or in your home folder `~/` on linux. 
+>**NOTE**<br /> 
+>For this to work, you *need to run **Visual Studio** as an administrator*
+
 
 
 
