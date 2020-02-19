@@ -14,25 +14,25 @@
 }
 else
 {
-    <table class="table table-hover">
+    <table class="table table-hover table-sm">
         <thead class="thead-light">
             <tr>             
-                <th>&nbsp;</th>
                 <th>When</th>
                 <th>Peed</th>
                 <th>Pooed</th>
                 <th>Comment</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var pottyBreak in _pottyBreaks)
             {
                 <tr @onclick="() => _selectedPottyBreak = pottyBreak">      
-                    <td><button @onclick="() => DeleteCurrent(pottyBreak)"><span class="oi oi-trash">&nbsp;</span></button></td>
                     <td>@pottyBreak.DateTime.ToString("dddd, dd MMM HH:mm")</td>
                     <td>@pottyBreak.Peed</td>
                     <td>@pottyBreak.Pooed</td>
                     <td>@pottyBreak.Comment</td>
+                    <td><button @onclick="() => DeleteCurrent(pottyBreak)"><span class="oi oi-trash" style="color:red;"></span></button></td>
                 </tr>
             }
         </tbody>
