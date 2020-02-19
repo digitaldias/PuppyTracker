@@ -20,7 +20,7 @@ else
             <div class="form-group">
                 <label for="timeBox">Date and time:</label>
                 <input id="timeBox" type="text" @onfocus=@FocusOnTime @bind="_pottyBreak.DateTime" />
-                <NodaTimePicker.TimePicker Visible=@TimePickerVisible OnSelectedTimeChanged=@TimeChanged ShowClose=true CloseOnSelect=true Is24Hour=true />
+                <NodaTimePicker.TimePicker Visible=@TimePickerVisible OnSelectedTimeChanged=@TimeChanged ShowClose=true CloseOnSelect=true Is24Hour=true SelectedTime="SelectedTime" />
             </div>
 
             <div class="funkyradio">
