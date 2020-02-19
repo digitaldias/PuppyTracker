@@ -3,7 +3,7 @@
 
 <hr />
 @if (_pottyBreak == null)
-{
+{    
     <div>
         <button class="btn btn-info btn-lg" @onclick="CreateNewPottyBreak">New Potty Action!</button>
     </div>
@@ -41,7 +41,7 @@ else
             </div>
             
             <div>
-                <button class="btn btn-primary btn-lg" @onclick="InvokeSave">Save</button>
+                <button class="btn btn-primary btn-lg" @onclick="InvokeSave">@SaveButtonText</button>
                 <button class="btn btn-warning btn-lg" @onclick="Cancel">Cancel</button>
             </div>
         </form>
@@ -51,6 +51,7 @@ else
 @code {
 
     // Locals
+    private string SaveButtonText { get; set; }
     private bool TimePickerVisible = false;
     private PottyBreak _pottyBreak { get; set; }
     private LocalTime SelectedTime { get; set; }
@@ -68,6 +69,7 @@ else
                 return;
 
             _pottyBreak = value;
+            SaveButtonText = "Update";
         }
     }
 
@@ -93,6 +95,7 @@ else
             Comment = "No comment"
         };
         SelectedTime = new LocalTime(_pottyBreak.DateTime.Hour, _pottyBreak.DateTime.Minute, 0);
+        SaveButtonText = "Save";
     }
 
     private void Cancel()
